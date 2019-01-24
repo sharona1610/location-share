@@ -1,0 +1,16 @@
+.location-form
+  = simple_form_for @location do |f|
+    .form-group
+      = label_tag :name
+      = f.input :name, class: 'form-control', label: false, required: true
+    .form-group
+      = label_tag :latitude
+      = f.input :latitude, class: 'form-control', label: false, required: true
+    .form-group
+      = label_tag :longitude
+      = f.input :longitude, class: 'form-control', label: false, required: true
+    = f.input :public, as: :boolean
+    .form-group
+      = label_tag 'Users to share location with'
+      = f.association :users, collection: User.where.not(id: current_user.id).map{|u| [u.email, u.id]}, class: 'form-control', label: false
+    = f.button :submit, class: 'btn btn-secondary'

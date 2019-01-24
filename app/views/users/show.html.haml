@@ -1,0 +1,48 @@
+
+.container-fluid
+  .row
+    .col-4
+      .accordian#lists
+        - if @locations.present? && @user == current_user
+          .card
+            .card-header#my-locations
+              .mb-0
+                .title-user(data-toggle="collapse" data-target="#my-locations-list" aria-expanded="true" aria-controls="my-locations-list") My locations
+            .collapse#my-locations-list(aria-labelledby="my-locations" data-parent="#lists")
+              .card-body
+                %ul.list-group
+                  - @locations.each do |location|
+                    %li.list-group-item.list-group-item-light.location-name{'data-latitude':location.latitude, 'data-longitude':location.longitude}= location.name
+
+        - if @locations_shared.present?
+          .card
+            .card-header#locations-shared
+              .mb-0
+                .title-user(data-toggle="collapse" data-target="#shared-locations-list" aria-expanded="true" aria-controls="shared-locations-list") Locations shared
+            .collapse#shared-locations-list(aria-labelledby="locations-shared" data-parent="#lists")
+              .card-body
+                %ul.list-group
+                  - @locations_shared.each do |location_shared|
+                    %li.list-group-item.list-group-item-light.location-name{'data-latitude':location_shared.latitude, 'data-longitude':location_shared.longitude}= location_shared.name
+
+        - if @user == current_user
+          .card
+            .card-header#users
+              .mb-0
+                .title-user(data-toggle="collapse" data-target="#users-list" aria-expanded="true" aria-controls="users-list") Other users
+            .collapse#users-list(aria-labelledby="users" data-parent="#lists")
+              .card-body
+                %ul.list-group
+                  - @users.each do |user|
+                    %li.list-group-item.list-group-item-light= link_to(user.email, user_path(user))
+
+    .col
+      #map.map
+
+- if @locations.present? || @locations_shared.present?
+  - locations = @locations.to_a + @locations_shared.to_a
+  - provide :head_tags do
+    :javascript
+      document.addEventListener("DOMContentLoaded", function(){
+        initMap(#{locations.map{|l| [l.longitude, l.latitude]}})
+      });
