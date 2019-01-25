@@ -48,7 +48,6 @@ function initMap(locations) {
       source: new ol.source.OSM()
     })
 
-
   let map = new ol.Map({
     layers: [tileLayer,vectorLayer],
     target: document.getElementById('map'),

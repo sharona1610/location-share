@@ -43,6 +43,10 @@
   - locations = @locations.to_a + @locations_shared.to_a
   - provide :head_tags do
     :javascript
-      document.addEventListener("DOMContentLoaded", function(){
+      if( document.readyState === 'complete' ) {
         initMap(#{locations.map{|l| [l.longitude, l.latitude]}})
-      });
+      } else {
+        document.addEventListener('DOMContentLoaded', function () {
+          initMap(#{locations.map{|l| [l.longitude, l.latitude]}})
+        });
+      }

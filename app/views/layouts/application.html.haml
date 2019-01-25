@@ -9,8 +9,9 @@
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
     %script{:src => "https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"}
     %link{:href => "https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css", :rel => "stylesheet"}
-    = yield(:head_tags)
+
   %body
+    = yield(:head_tags)
     = render 'shared/nav'
     -if notice
       %p.notice.alert.alert-success= notice

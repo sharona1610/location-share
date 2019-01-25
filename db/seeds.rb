@@ -5,11 +5,21 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-p 'create users'
+p 'create first user and location'
 User.create!(
   email: 'first@user.com',
   password: 'password'
 )
+
+Location.create!(
+  name: Faker::FunnyName.name,
+  latitude: Faker::Address.latitude,
+  longitude: Faker::Address.longitude,
+  public: [true, false].sample,
+  creator: User.find_by(email: 'first@user.com')
+)
+
+p 'create other users'
 
 10.times do
   User.create!(
